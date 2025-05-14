@@ -1,10 +1,9 @@
 package com.example.vocab_api.Entity;
 
-import org.springframework.data.annotation.Id;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class Vocabulary {
@@ -14,4 +13,12 @@ public class Vocabulary {
 
     private String japaneseWord;
     private String chineseMeaning;
+
+    public void setJapaneseWord(String jp) {
+        japaneseWord = jp;
+    }
+
+    public void setChineseMeaning(String zh) {
+        chineseMeaning = zh;
+    }
 }
