@@ -1,4 +1,4 @@
-package com.example.vocab_api.Entity;
+package com.example.vocab_api.domain.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

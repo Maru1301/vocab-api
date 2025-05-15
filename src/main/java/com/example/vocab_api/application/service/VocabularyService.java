@@ -1,9 +1,9 @@
-package com.example.vocab_api.Service;
+package com.example.vocab_api.application.service;
 
 import org.springframework.stereotype.Service;
 
-import com.example.vocab_api.Entity.Vocabulary;
-import com.example.vocab_api.Repository.Interface.IVocabularyRepository;
+import com.example.vocab_api.domain.model.Vocabulary;
+import com.example.vocab_api.domain.repository.IVocabularyRepository;
 
 @Service
 public class VocabularyService {

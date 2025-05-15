@@ -1,4 +1,4 @@
-package com.example.vocab_api.Controller;
+package com.example.vocab_api.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.vocab_api.Service.VocabularyService;
+import com.example.vocab_api.application.service.VocabularyService;
 
 @RestController
 @RequestMapping("/api/vocabulary")

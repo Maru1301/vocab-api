@@ -1,4 +1,4 @@
-package com.example.vocab_api.Repository;
+package com.example.vocab_api.infrastructure.repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,8 +11,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.lang.NonNull;
 
-import com.example.vocab_api.Entity.Vocabulary;
-import com.example.vocab_api.Repository.Interface.IVocabularyRepository;
+import com.example.vocab_api.domain.model.Vocabulary;
+import com.example.vocab_api.domain.repository.IVocabularyRepository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
