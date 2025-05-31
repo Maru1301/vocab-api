@@ -28,6 +28,8 @@ public class VocabularyService {
             Vocabulary v = new Vocabulary();
             v.setJapaneseWord(dto.getJp());
             v.setChineseMeaning(dto.getZh());
+            v.setPartOfSpeech(dto.getPartOfSpeech());
+            v.setNotes(dto.getNotes());
             repo.save(v); // ← JPA 幫你存進資料庫
         } catch (Exception e) {
             // Log the exception or handle it as needed
@@ -35,6 +37,36 @@ public class VocabularyService {
             // Optionally, rethrow or handle differently
             return false;
         }
+        return true;
+    }
+
+    public java.util.List<Vocabulary> listAll() {
+        return repo.findAllByOrderByCreatedAtDesc();
+    }
+
+    public Vocabulary getById(Long id) {
+        return repo.findById(id).orElse(null);
+    }
+
+    public java.util.List<Vocabulary> search(String keyword) {
+        return repo.findByJapaneseWordContainingIgnoreCaseOrChineseMeaningContainingIgnoreCaseOrPartOfSpeechContainingIgnoreCaseOrNotesContainingIgnoreCase(
+            keyword, keyword, keyword, keyword);
+    }
+
+    public boolean updateVocabulary(Long id, AddVocabularyDto dto) {
+        Vocabulary v = repo.findById(id).orElse(null);
+        if (v == null) return false;
+        v.setJapaneseWord(dto.getJp());
+        v.setChineseMeaning(dto.getZh());
+        v.setPartOfSpeech(dto.getPartOfSpeech());
+        v.setNotes(dto.getNotes());
+        repo.save(v);
+        return true;
+    }
+
+    public boolean deleteVocabulary(Long id) {
+        if (!repo.existsById(id)) return false;
+        repo.deleteById(id);
         return true;
     }
 }

@@ -8,6 +8,11 @@ public class AddVocabularyMapper {
         if (request == null) {
             return null;
         }
-        return new AddVocabularyDto(request.getJp(), request.getZh());
+        return new AddVocabularyDto(
+            request.getJp(),
+            request.getZh(),
+            request.getPartOfSpeech(),
+            request.getNotes()
+        );
     }
 }
