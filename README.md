@@ -63,20 +63,6 @@ src/main/java/com/example/vocab_api/
   ├── web/            # Web layer (controllers, web DTOs, mappers)
 ```
 
-## API Endpoints
-### Add Vocabulary
-- **POST** `/api/vocabulary/add`
-- **Request Body (JSON):**
-  ```json
-  {
-    "jp": "こんにちは",
-    "zh": "你好"
-  }
-  ```
-- **Response:**
-  - `true` if saved successfully
-  - `false` if validation or save failed
-
 ## Getting Started
 ### Prerequisites
 - Java 17 or later
