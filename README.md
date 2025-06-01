@@ -43,8 +43,11 @@ A Spring Boot application for managing Japanese-Chinese vocabulary, structured u
     - Backup and share vocabulary bank
 5. Pronunciation Support
     - Use Text-to-Speech or external APIs
-6. Cross-Device Sync (Cloud Backup)
-    - Option to log in and automatically sync vocabulary data
+
+7. Redis Caching for Enhanced Performance
+    - Integrate Redis to cache frequently accessed vocabulary and user data
+    - Reduce database load and improve response times
+    - Provide a smoother and faster user experience, especially for repeated queries
 
 ---
 
