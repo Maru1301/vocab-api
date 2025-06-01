@@ -1,3 +1,4 @@
+
 package com.example.vocab_api.application.service;
 
 import java.util.Arrays;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.mockito.Mockito.doNothing;
@@ -25,10 +27,13 @@ import org.mockito.MockitoAnnotations;
 import com.example.vocab_api.application.dto.AddVocabularyDto;
 import com.example.vocab_api.domain.model.Vocabulary;
 import com.example.vocab_api.domain.repository.IVocabularyRepository;
+import com.example.vocab_api.domain.service.VocabularyDomainService;
 
-public class VocabularyServiceTest {
+class VocabularyServiceTest {
     @Mock
     private IVocabularyRepository repo;
+    @Mock
+    private VocabularyDomainService domainService;
 
     @InjectMocks
     private VocabularyService service;
@@ -41,25 +46,23 @@ public class VocabularyServiceTest {
     @Test
     void saveVocab_success() {
         AddVocabularyDto dto = new AddVocabularyDto("こんにちは", "你好", "noun", "greeting");
+        when(domainService.validateVocabulary("こんにちは", "你好")).thenReturn(true);
         when(repo.save(any(Vocabulary.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        doNothing().when(domainService).updateVocabularyFields(any(Vocabulary.class), anyString(), anyString(), anyString(), anyString());
         boolean result = service.saveVocab(dto);
         assertTrue(result);
+        verify(domainService).validateVocabulary("こんにちは", "你好");
+        verify(domainService).updateVocabularyFields(any(Vocabulary.class), eq("こんにちは"), eq("你好"), eq("noun"), eq("greeting"));
         verify(repo).save(any(Vocabulary.class));
     }
 
     @Test
-    void saveVocab_fail_emptyJapanese() {
+    void saveVocab_fail_validation() {
         AddVocabularyDto dto = new AddVocabularyDto("", "你好", "noun", "greeting");
+        when(domainService.validateVocabulary("", "你好")).thenReturn(false);
         boolean result = service.saveVocab(dto);
         assertFalse(result);
-        verify(repo, never()).save(any());
-    }
-
-    @Test
-    void saveVocab_fail_emptyChinese() {
-        AddVocabularyDto dto = new AddVocabularyDto("こんにちは", "", "noun", "greeting");
-        boolean result = service.saveVocab(dto);
-        assertFalse(result);
+        verify(domainService).validateVocabulary("", "你好");
         verify(repo, never()).save(any());
     }
 
@@ -102,16 +105,14 @@ public class VocabularyServiceTest {
     @Test
     void updateVocabulary_success() {
         Vocabulary vocab = new Vocabulary();
-        vocab.setJapaneseWord("old");
         when(repo.findById(1L)).thenReturn(Optional.of(vocab));
+        doNothing().when(domainService).updateVocabularyFields(eq(vocab), anyString(), anyString(), anyString(), anyString());
         when(repo.save(any(Vocabulary.class))).thenReturn(vocab);
         AddVocabularyDto dto = new AddVocabularyDto("new", "新しい", "noun", "note");
         boolean result = service.updateVocabulary(1L, dto);
         assertTrue(result);
-        assertEquals("new", vocab.getJapaneseWord());
-        assertEquals("新しい", vocab.getChineseMeaning());
-        assertEquals("noun", vocab.getPartOfSpeech());
-        assertEquals("note", vocab.getNotes());
+        verify(domainService).updateVocabularyFields(eq(vocab), eq("new"), eq("新しい"), eq("noun"), eq("note"));
+        verify(repo).save(vocab);
     }
 
     @Test
@@ -120,6 +121,7 @@ public class VocabularyServiceTest {
         AddVocabularyDto dto = new AddVocabularyDto("new", "新しい", "noun", "note");
         boolean result = service.updateVocabulary(1L, dto);
         assertFalse(result);
+        verify(domainService, never()).updateVocabularyFields(any(), anyString(), anyString(), anyString(), anyString());
         verify(repo, never()).save(any());
     }
 
